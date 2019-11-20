@@ -38,6 +38,7 @@ public class QualityCheckUserInterface1 {
     private String s;
     private String task;
     private JPanel panel;
+    private JTextField textField;
 
     //Frame
     JFrame frame;
@@ -57,8 +58,11 @@ public class QualityCheckUserInterface1 {
     public static void main(String args[]) throws IOException {
         QualityCheckUserInterface1 quality = new QualityCheckUserInterface1();
         quality.mainFrame();
-        //quality.ocrFrame();
+        //quality.colorFrame();
         //quality.patternFrame();
+        //quality.BarFrame();
+       // quality. circleFrame();
+        //quality.ocrFrame();
 
     }
 
@@ -112,7 +116,7 @@ public class QualityCheckUserInterface1 {
             public void actionPerformed(ActionEvent actionEvent) {
                 // barFrame.BarFrame();
                 task = "RUN|BCR";
-                BarFrame();
+                barFrame();
             }
         });
 
@@ -284,6 +288,13 @@ public class QualityCheckUserInterface1 {
             }
         });
 
+        JLabel location = new JLabel("Location:");
+        location.setBounds(670, 210, 80, 30);
+
+        textField = new JTextField();
+        textField.setBounds(650, 250, 115, 30);
+        textField.setEditable(false);
+
         final JButton getImage = new JButton("Get Image");
         getImage.setBounds(650, 25, 110, 30);
         getImage.addActionListener(new ActionListener() {
@@ -321,7 +332,7 @@ public class QualityCheckUserInterface1 {
         run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-               getRun();
+               sendRunGetInformation();
             }
         });
 
@@ -350,6 +361,8 @@ public class QualityCheckUserInterface1 {
         panel.add(label2);panel.add(label3);panel.add(label4);
         panel.add(label5);panel.add(label6);panel.add(label7);
         panel.add(send);
+        panel.add(textField);
+        panel.add(location);
         panel.add(label1);
         panel.add(getImage);
         panel.add(stopb);
@@ -385,6 +398,13 @@ public class QualityCheckUserInterface1 {
         label1.setBorder(border);
         label1.setForeground(Color.black);
         label1.setIcon(icon);
+
+        JLabel location = new JLabel("Location:");
+        location.setBounds(660, 110, 80, 30);
+
+        textField = new JTextField();
+        textField.setBounds(650, 150, 90, 30);
+        textField.setEditable(false);
 
         final JButton getImage = new JButton("Get Image");
         getImage.setBounds(20, 490, 110, 30);
@@ -437,7 +457,7 @@ public class QualityCheckUserInterface1 {
         run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                getRun();
+                sendRunGetInformation();
             }
         });
 
@@ -465,6 +485,8 @@ public class QualityCheckUserInterface1 {
         panel.add(label1);
         panel.add(getImage);
         panel.add(stopb);
+        panel.add(textField);
+        panel.add(location);
         panel.add(send);
         panel.add(confidence);
         panel.add(confidencetxt);
@@ -476,7 +498,7 @@ public class QualityCheckUserInterface1 {
 
     //bar Frame
 
-    public void BarFrame() {
+    public void barFrame() {
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         frame1 = new JFrame("Bar Code");
         frame1.setLayout(null);
@@ -491,10 +513,10 @@ public class QualityCheckUserInterface1 {
         panel.setLayout(null);
 
         JLabel location = new JLabel("Location:");
-        location.setBounds(50, 60, 80, 30);
+        location.setBounds(20, 60, 80, 30);
 
-        final JTextField textField = new JTextField();
-        textField.setBounds(140, 60, 150, 30);
+        textField = new JTextField();
+        textField.setBounds(100, 60, 180, 30);
         textField.setEditable(false);
 
         final JButton stopb = new JButton("Stop");
@@ -512,7 +534,7 @@ public class QualityCheckUserInterface1 {
         run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                getRun();
+                sendRunGetInformation();
             }
         });
 
@@ -553,10 +575,10 @@ public class QualityCheckUserInterface1 {
         panel.setLayout(null);
 
         JLabel location = new JLabel("Location:");
-        location.setBounds(50, 60, 80, 30);
+        location.setBounds(20, 60, 80, 30);
 
-        final JTextField textField = new JTextField();
-        textField.setBounds(140, 60, 150, 30);
+        textField = new JTextField();
+        textField.setBounds(110, 60, 180, 30);
         textField.setEditable(false);
 
 
@@ -565,7 +587,7 @@ public class QualityCheckUserInterface1 {
         run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                getRun();
+                sendRunGetInformation();
             }
         });
 
@@ -622,6 +644,15 @@ public class QualityCheckUserInterface1 {
         label1.setBorder(border);
         label1.setForeground(Color.black);
         label1.setIcon(icon);
+
+        JLabel location = new JLabel("Location:");
+        location.setBounds(660, 110, 80, 30);
+
+        textField = new JTextField();
+        textField.setBounds(650, 150, 100, 30);
+        textField.setEditable(false);
+
+
 
         JButton getImage = new JButton("Get Image");
         getImage.setBounds(20, 490, 110, 30);
@@ -711,7 +742,7 @@ public class QualityCheckUserInterface1 {
         run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                getRun();
+                sendRunGetInformation();
 
 
             }
@@ -743,6 +774,8 @@ public class QualityCheckUserInterface1 {
         panel.add(getImage);
         panel.add(stopB);
         panel.add(send);
+        panel.add(location);
+        panel.add(textField);
         panel.add(text);
         //panel.add(checkBox);
         //panel.add(checkBoxText);
@@ -856,7 +889,7 @@ public class QualityCheckUserInterface1 {
 
 
     // Send run to server and receive the information
-    public void getRun(){
+    public void sendRunGetInformation(){
         //send
             stop = false;
         switch (task) {
@@ -898,6 +931,7 @@ public class QualityCheckUserInterface1 {
                                     if(start){
                                         if (ch == '|') {
                                             System.out.println("Location: " + contents);//displayLocation()
+                                            textField.setText(contents);
                                             contents = "";
                                         } else {
                                             char c = (char) ch;
