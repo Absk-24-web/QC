@@ -12,7 +12,7 @@ public class Service {
 
     public void socket() throws IOException {
 
-        client = new Socket("localhost", 3001);
+        client = new Socket("100.100.100.1", 3001);
         System.out.println("Just connected to " + client.getRemoteSocketAddress());
 
     }

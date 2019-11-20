@@ -12,11 +12,13 @@ public class ImagePanel extends JPanel {
     public StringBuilder str = new StringBuilder();
     public String s, s1;
     Point startDrag, endDrag;
+    public int count ;
 
 
     public void updateImage(BufferedImage img) {
         this.image = img;
         shape = null;
+        count =0;
     }
 
 
@@ -32,8 +34,6 @@ public class ImagePanel extends JPanel {
                         revalidate();
                         repaint();
                     }
-
-                    int count = 0;
 
                     public void mouseReleased(MouseEvent e) {
                         if (endDrag != null && startDrag != null) {
