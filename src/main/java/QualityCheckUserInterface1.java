@@ -321,7 +321,6 @@ public class QualityCheckUserInterface1 {
         run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                stop = false;
                getRun();
             }
         });
@@ -331,7 +330,6 @@ public class QualityCheckUserInterface1 {
         stopb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                stop = true;
                 sendStop();
 
             }
@@ -439,7 +437,6 @@ public class QualityCheckUserInterface1 {
         run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                stop = false;
                 getRun();
             }
         });
@@ -449,7 +446,6 @@ public class QualityCheckUserInterface1 {
         stopb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                stop = true;
                 sendStop();
             }
         });
@@ -516,7 +512,6 @@ public class QualityCheckUserInterface1 {
         run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                stop = false;
                 getRun();
             }
         });
@@ -570,7 +565,6 @@ public class QualityCheckUserInterface1 {
         run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                stop = false;
                 getRun();
             }
         });
@@ -717,16 +711,15 @@ public class QualityCheckUserInterface1 {
         run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                stop = false;
                 getRun();
 
 
             }
         });
 
-        final JButton stopb = new JButton("Stop");
-        stopb.setBounds(380, 490, 70, 30);
-        stopb.addActionListener(new ActionListener() {
+        final JButton stopB = new JButton("Stop");
+        stopB.setBounds(380, 490, 70, 30);
+        stopB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 sendStop();
@@ -748,7 +741,7 @@ public class QualityCheckUserInterface1 {
         panel.add(exit);
         panel.add(label1);
         panel.add(getImage);
-        panel.add(stopb);
+        panel.add(stopB);
         panel.add(send);
         panel.add(text);
         //panel.add(checkBox);
@@ -816,7 +809,7 @@ public class QualityCheckUserInterface1 {
                                 //label.getGraphics().drawImage(img, 0, 0, null);
                                 idx = 0;
 
-                                System.out.println("saved " + count);//displayImage()
+                                System.out.println("received " + count);//displayImage()
                             } else {
                                 contents[idx] = (byte) ch;
                                 idx++;
@@ -847,6 +840,7 @@ public class QualityCheckUserInterface1 {
     //Send stop to server
     public void sendStop(){
         //send
+        stop = true;
         if(service.client != null){
             try {
                 output = new PrintWriter(new OutputStreamWriter(service.client.getOutputStream()), true);
@@ -864,7 +858,7 @@ public class QualityCheckUserInterface1 {
     // Send run to server and receive the information
     public void getRun(){
         //send
-
+            stop = false;
         switch (task) {
             case "RUN|PAT":
             case "RUN|CLR":
@@ -888,6 +882,7 @@ public class QualityCheckUserInterface1 {
                                 in = new InputStreamReader(service.client.getInputStream());
                                 int count = 0;
                                 String contents = "";
+                                boolean start = false;
                                 do {
                                     if (stop == true) {
                                         break;
@@ -899,16 +894,21 @@ public class QualityCheckUserInterface1 {
                                         System.out.print("return");
                                         return;
                                     }
-                                    if (ch == '|') {
-                                        System.out.println("Location: " + contents);//displayLocation()
-                                        contents = "";
-                                    } else {
-                                        char c = (char) ch;
-                                        contents = contents + c;
-                                    }
 
+                                    if(start){
+                                        if (ch == '|') {
+                                            System.out.println("Location: " + contents);//displayLocation()
+                                            contents = "";
+                                        } else {
+                                            char c = (char) ch;
+                                            contents = contents + c;
+                                        }
+                                    }
+                                    if(ch == '|'){
+                                        start =! start;
+                                    }
                                 } while (true);
-                                System.out.println("Exited");
+                                //System.out.println("Exited");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
